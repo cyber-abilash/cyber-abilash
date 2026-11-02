@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 
 import {
@@ -12,15 +13,15 @@ import {
   Menu,
   X,
   Terminal,
-  LockKeyhole,
   Sparkles,
-  Briefcase,
   GraduationCap,
   GitBranch,
   ExternalLink,
   FolderKanban,
   Loader2,
   Image as ImageIcon,
+  Globe,
+  LockKeyhole,
 } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
@@ -42,19 +43,8 @@ interface Project {
 }
 
 // ============================================
-// SKILLS
+// NAVIGATION
 // ============================================
-
-const skills = [
-  "HTML & CSS",
-  "JavaScript",
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Cybersecurity",
-  "UI / UX Design",
-  "AI & Automation",
-];
 
 const navigation = [
   { label: "Home", href: "#home" },
@@ -63,6 +53,22 @@ const navigation = [
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
+
+// ============================================
+// 3D CYBER GLOBE
+// ============================================
+
+const CyberGlobe = dynamic(
+  () => import("@/components/cyber-globe"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[360px] items-center justify-center font-mono text-xs tracking-widest text-[#FF2D55] md:h-[520px]">
+        INITIALIZING 3D SECURITY SYSTEM...
+      </div>
+    ),
+  }
+);
 
 // ============================================
 // MAIN COMPONENT
@@ -115,15 +121,19 @@ export default function Home() {
     <main className="min-h-screen overflow-hidden bg-[#070A0F] text-white">
 
       {/* ========================================
-          NAVBAR
+          NAVIGATION
       ======================================== */}
 
-      <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#070A0F]/80 backdrop-blur-xl">
+      <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#070A0F]/85 backdrop-blur-xl">
+
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
 
-          <a href="#home" className="text-xl font-bold tracking-wider">
+          <a
+            href="#home"
+            className="text-xl font-black tracking-wider"
+          >
             CYBER
-            <span className="text-[#00E5A0]"> ABILASH.</span>
+            <span className="text-[#FF2D55]"> ABILASH.</span>
           </a>
 
           <div className="hidden items-center gap-9 md:flex">
@@ -131,7 +141,7 @@ export default function Home() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm text-gray-400 transition hover:text-[#00E5A0]"
+                className="text-sm text-gray-400 transition hover:text-[#FF2D55]"
               >
                 {item.label}
               </a>
@@ -140,7 +150,7 @@ export default function Home() {
 
           <a
             href="#contact"
-            className="hidden items-center gap-2 rounded-full border border-[#00E5A0]/50 px-5 py-2.5 text-sm text-[#00E5A0] transition hover:bg-[#00E5A0] hover:text-black md:flex"
+            className="hidden items-center gap-2 rounded-full border border-[#FF2D55]/50 px-5 py-2.5 text-sm text-[#FF2D55] transition hover:bg-[#FF2D55] hover:text-black md:flex"
           >
             Let's Talk
             <ArrowUpRight size={16} />
@@ -154,16 +164,18 @@ export default function Home() {
           >
             {menuOpen ? <X size={25} /> : <Menu size={25} />}
           </button>
+
         </div>
 
         {menuOpen && (
           <div className="border-t border-white/10 bg-[#070A0F] px-6 py-5 md:hidden">
+
             {navigation.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className="block py-3 text-gray-300 transition hover:text-[#00E5A0]"
+                className="block py-3 text-gray-300 transition hover:text-[#FF2D55]"
               >
                 {item.label}
               </a>
@@ -172,201 +184,441 @@ export default function Home() {
             <Link
               href="/projects"
               onClick={() => setMenuOpen(false)}
-              className="mt-3 block border-t border-white/10 pt-4 text-[#00E5A0]"
+              className="mt-3 block border-t border-white/10 pt-4 text-[#FF2D55]"
             >
               View All Projects →
             </Link>
+
           </div>
         )}
+
       </nav>
 
       {/* ========================================
           HERO SECTION
       ======================================== */}
 
-      <section
-        id="home"
-        className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 pb-20 pt-36 md:grid-cols-2 md:px-10"
-      >
-        <div className="pointer-events-none absolute left-[-150px] top-40 h-80 w-80 rounded-full bg-[#00E5A0]/10 blur-[120px]" />
+      {/* ========================================
+    CLASSIFIED PERSONAL HERO SECTION
+======================================== */}
 
-        <div className="relative z-10">
+<section
+  id="home"
+  className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 pb-20 pt-36 md:grid-cols-2 md:px-10"
+>
+  <div className="pointer-events-none absolute left-[-150px] top-40 h-80 w-80 rounded-full bg-[#FF2D55]/10 blur-[120px]" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#00E5A0]/20 bg-[#00E5A0]/5 px-4 py-2 text-xs tracking-widest text-[#00E5A0]"
-          >
-            <span className="h-2 w-2 rounded-full bg-[#00E5A0]" />
-            AVAILABLE FOR NEW OPPORTUNITIES
-          </motion.div>
+  {/* PERSONAL INFORMATION */}
+<div className="relative z-10">
+  {/* PROFILE IDENTITY */}
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-6xl font-bold leading-[1.1] tracking-tight md:text-8xl"
-          >
-            Think.
-            <br />
-            Build.
-            <br />
-            <span className="text-[#00E5A0]">Secure.</span>
-          </motion.h1>
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+    className="mb-7 flex items-center gap-5"
+  >
+    <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-[#FF2D55] shadow-[0_0_30px_rgba(255,45,85,0.5)]">
+      <img
+        src="/abilash-profile.png"
+        alt="Abilash S"
+        className="block h-full w-full rounded-full object-cover scale-125"
+        style={{
+          objectPosition: "center",
+          transform: "scale(1.15)",
+        }}
+      />
+    </div>
 
-          <p className="mt-8 max-w-lg text-base leading-8 text-gray-400 md:text-lg">
-            Hi, I'm Abilash. I explore web development, cybersecurity
-            and emerging technologies to create meaningful digital
-            experiences.
-          </p>
+    <div>
+      <p className="font-mono text-xs tracking-widest text-[#FF2D55]">
+        IDENTITY VERIFIED
+      </p>
+      <h2 className="mt-2 text-2xl font-black text-white">
+        ABILASH S.
+      </h2>
+      <p className="mt-1 text-sm text-gray-400">
+        Cybersecurity Enthusiast
+      </p>
+      <p className="mt-1 text-sm text-gray-500">
+        Ethical Hacking Learner
+      </p>
+    </div>
+  </motion.div>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-3 rounded-full bg-[#00E5A0] px-7 py-4 font-semibold text-black transition hover:scale-105"
-            >
-              Explore My Work
-              <ArrowUpRight size={19} />
-            </a>
+  {/* MAIN HERO HEADING */}
 
-            <a
-              href="#about"
-              className="rounded-full border border-white/20 px-7 py-4 text-white transition hover:border-[#00E5A0] hover:text-[#00E5A0]"
-            >
-              About Me
-            </a>
-          </div>
-        </div>
+  <motion.h1
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    className="text-5xl font-black leading-[1.1] tracking-tight md:text-7xl"
+  >
+    Think.
+    <br />
+    Build.
+    <br />
+    <span className="text-[#FF2D55]">Secure.</span>
+  </motion.h1>
 
-        {/* HERO VISUAL */}
+  {/* ETHICAL HACKER STATUS */}
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="relative flex items-center justify-center py-10"
+  <motion.p
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.8, duration: 1 }}
+    className="mt-5 font-mono text-sm font-bold tracking-widest text-[#FF2D55] md:text-base"
+  >
+    <span className="mr-2 animate-pulse">▌</span>
+    ETHICAL HACKER IN PROGRESS
+  </motion.p>
+
+  {/* INTRODUCTION */}
+
+  <motion.p
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3, duration: 0.8 }}
+    className="mt-7 max-w-lg text-base leading-8 text-gray-400"
+  >
+    Hi, I'm Abilash. I'm a cybersecurity enthusiast
+    learning ethical hacking, Kali Linux and networking.
+    My mission is to understand technology and help
+    build a safer digital world.
+  </motion.p>
+  
+    {/* PERSONAL DETAILS */}
+
+    <div className="mt-8 grid max-w-lg grid-cols-2 gap-3">
+
+      {[
+  ["EDUCATION", "B.E. CSE (Cyber Security)"],
+  ["COLLEGE", "Sardar Raja College of Engineering"],
+  ["LOCATION", "Tenkasi, Tamil Nadu, India"],
+  ["CURRENT FOCUS", "Kali Linux & Network Security"],
+      ].map(([label, value]) => (
+        <div
+          key={label}
+          className="rounded-xl border border-white/10 bg-[#101827]/80 p-4 backdrop-blur-xl"
         >
-          <div className="absolute h-72 w-72 rounded-full bg-[#00E5A0]/10 blur-[100px] md:h-96 md:w-96" />
+          <p className="font-mono text-[9px] tracking-widest text-[#FF2D55]">
+            {label}
+          </p>
+          <p className="mt-2 text-xs font-semibold text-gray-300">
+            {value}
+          </p>
+        </div>
+      ))}
 
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="relative flex h-72 w-72 items-center justify-center rounded-full border border-[#00E5A0]/30 bg-[#101827]/80 shadow-[0_0_100px_rgba(0,229,160,0.12)] md:h-96 md:w-96"
-          >
-            <div className="absolute inset-5 rounded-full border border-dashed border-[#00E5A0]/30" />
+    </div>
 
-            <div className="flex h-40 w-40 items-center justify-center rounded-3xl border border-[#00E5A0]/30 bg-[#00E5A0]/10 md:h-52 md:w-52">
-              <ShieldCheck
-                size={110}
-                strokeWidth={1}
-                className="text-[#00E5A0] md:h-36 md:w-36"
-              />
-            </div>
+    {/* ACTION BUTTONS */}
 
-            <div className="absolute -right-3 top-12 rounded-xl border border-white/10 bg-[#101827] p-3">
-              <Terminal className="text-[#00E5A0]" />
-            </div>
+    <div className="mt-9 flex flex-wrap gap-4">
 
-            <div className="absolute -bottom-3 left-8 rounded-xl border border-white/10 bg-[#101827] p-3">
-              <LockKeyhole className="text-[#00E5A0]" />
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
+      <a
+        href="#projects"
+        className="inline-flex items-center gap-3 rounded-full bg-[#FF2D55] px-7 py-4 font-semibold text-black transition hover:scale-105"
+      >
+        Explore My Work
+        <ArrowUpRight size={19} />
+      </a>
+
+      <a
+        href="#contact"
+        className="rounded-full border border-white/20 px-7 py-4 text-white transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
+      >
+        Contact Me
+      </a>
+
+    </div>
+
+    {/* ETHICAL HACKING QUOTE */}
+
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.6 }}
+      className="mt-10 max-w-lg border-l-2 border-[#FF2D55] bg-[#FF2D55]/5 p-5"
+    >
+      <p className="font-mono text-[10px] tracking-widest text-[#FF2D55]">
+        MY CYBERSECURITY PHILOSOPHY
+      </p>
+
+      <h3 className="mt-3 text-lg font-bold italic text-white md:text-xl">
+  <span className="text-[#FF2D55]">
+    THINK LIKE A HACKER.
+  </span>
+  <br />
+  DEFEND LIKE A GUARDIAN.
+</h3>
+
+<p className="mt-2 text-xs text-gray-500">
+  Break the limits. Not the laws. | Learn. Build. Secure.
+</p>
+    </motion.div>
+
+  </div>
+
+  {/* EXISTING 3D CYBER GLOBE */}
+
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1 }}
+    className="relative flex items-center justify-center py-10"
+  >
+    <CyberGlobe />
+  </motion.div>
+
+</section>
 
       {/* ========================================
-          ABOUT
+          PREMIUM ABOUT SECTION
       ======================================== */}
 
       <section
         id="about"
-        className="border-t border-white/10 px-6 py-28 md:px-10"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-32 md:px-10"
       >
-        <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2">
 
-          <div>
-            <p className="mb-5 text-sm tracking-[0.3em] text-[#00E5A0]">
+        <div className="pointer-events-none absolute right-[-100px] top-20 h-80 w-80 rounded-full bg-[#FF2D55]/10 blur-[120px]" />
+
+        <div className="relative mx-auto grid max-w-7xl items-center gap-16 md:grid-cols-2">
+
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+
+            <p className="mb-5 font-mono text-sm tracking-[0.3em] text-[#FF2D55]">
               01 / ABOUT ME
             </p>
 
-            <h2 className="text-4xl font-bold leading-tight md:text-6xl">
-              Curious mind.
+            <h2 className="text-4xl font-black leading-tight md:text-6xl">
+              Beyond
               <br />
-              <span className="text-gray-500">Creative builder.</span>
+              The <span className="text-[#FF2D55]">Ordinary.</span>
             </h2>
-          </div>
 
-          <div>
-            <p className="text-lg leading-9 text-gray-400">
-              I am passionate about technology, software development
-              and cybersecurity. I enjoy learning new technologies,
-              experimenting with ideas and building practical digital
-              solutions.
+            <p className="mt-8 max-w-xl text-base leading-9 text-gray-400">
+              I am Abilash, a technology enthusiast exploring
+              cybersecurity, ethical hacking and modern web development.
+
+              I enjoy understanding how systems work, learning new
+              technologies and building creative digital experiences.
             </p>
 
-            <div className="mt-10 grid grid-cols-2 gap-5">
+            <div className="mt-9 flex flex-wrap gap-3">
 
-              <div className="rounded-2xl border border-white/10 bg-[#101827] p-6">
-                <GraduationCap className="mb-4 text-[#00E5A0]" size={28} />
-                <h3 className="font-semibold">Student</h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  Always learning
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-[#101827] p-6">
-                <Sparkles className="mb-4 text-[#00E5A0]" size={28} />
-                <h3 className="font-semibold">Innovator</h3>
-                <p className="mt-2 text-sm text-gray-500">
-                  Building new ideas
-                </p>
-              </div>
+              {[
+                "CYBERSECURITY",
+                "WEB DEVELOPMENT",
+                "CONTINUOUS LEARNING",
+              ].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-[#FF2D55]/25 bg-[#FF2D55]/5 px-4 py-2 font-mono text-[10px] tracking-wider text-[#FF5575]"
+                >
+                  {item}
+                </span>
+              ))}
 
             </div>
+
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+            {[
+              {
+                icon: GraduationCap,
+                title: "Student",
+                subtitle: "Learning every day",
+                number: "01",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Cybersecurity",
+                subtitle: "Security-focused learning",
+                number: "02",
+              },
+              {
+                icon: Terminal,
+                title: "Kali Linux",
+                subtitle: "Currently learning",
+                number: "03",
+              },
+              {
+                icon: Sparkles,
+                title: "Innovation",
+                subtitle: "Building new ideas",
+                number: "04",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={item.number}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#101827]/80 p-7 backdrop-blur-xl transition-colors hover:border-[#FF2D55]/60"
+              >
+
+                <span className="absolute right-5 top-5 font-mono text-xs text-gray-700">
+                  {item.number}
+                </span>
+
+                <item.icon
+                  size={30}
+                  className="mb-7 text-[#FF2D55] transition-transform group-hover:scale-110"
+                />
+
+                <h3 className="text-lg font-bold text-white">
+                  {item.title}
+                </h3>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  {item.subtitle}
+                </p>
+
+                <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#FF2D55] transition-all duration-500 group-hover:w-full" />
+
+              </motion.div>
+            ))}
+
           </div>
+
         </div>
+
       </section>
 
       {/* ========================================
-          SKILLS
+          PREMIUM SKILLS SECTION
       ======================================== */}
 
       <section
         id="skills"
-        className="border-t border-white/10 px-6 py-28 md:px-10"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-32 md:px-10"
       >
+
         <div className="mx-auto max-w-7xl">
 
-          <p className="mb-5 text-sm tracking-[0.3em] text-[#00E5A0]">
-            02 / EXPERTISE
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
 
-          <h2 className="text-4xl font-bold md:text-6xl">
-            Skills & Technologies
-          </h2>
+            <p className="mb-5 font-mono text-sm tracking-[0.3em] text-[#FF2D55]">
+              02 / TECHNICAL ARSENAL
+            </p>
 
-          <p className="mt-5 max-w-xl leading-8 text-gray-400">
-            Technologies and tools I am learning and using to
-            create modern digital experiences.
-          </p>
+            <h2 className="text-4xl font-black md:text-6xl">
+              Skills & <span className="text-[#FF2D55]">Expertise.</span>
+            </h2>
 
-          <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {skills.map((skill, index) => (
+            <p className="mt-6 max-w-2xl leading-8 text-gray-400">
+              Technologies, tools and concepts I am exploring
+              to develop my technical and cybersecurity knowledge.
+            </p>
+
+          </motion.div>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+            {[
+              {
+                icon: ShieldCheck,
+                title: "Cybersecurity",
+                code: "SEC_01",
+                skills: [
+                  "Cybersecurity Fundamentals",
+                  "Ethical Hacking Concepts",
+                  "Kali Linux",
+                  "Basic Networking",
+                ],
+              },
+              {
+                icon: Code2,
+                title: "Web Development",
+                code: "DEV_02",
+                skills: [
+                  "HTML & CSS",
+                  "JavaScript",
+                  "React.js",
+                  "Next.js",
+                  "TypeScript",
+                ],
+              },
+              {
+                icon: Terminal,
+                title: "Tools & Technologies",
+                code: "TOOLS_03",
+                skills: [
+                  "Git & GitHub",
+                  "VS Code",
+                  "AI & Automation",
+                  "Supabase",
+                ],
+              },
+            ].map((group, index) => (
               <motion.div
-                key={skill}
-                initial={{ opacity: 0, y: 20 }}
+                key={group.code}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
-                className="rounded-2xl border border-white/10 bg-[#101827] p-6 transition hover:-translate-y-1 hover:border-[#00E5A0]/50"
+                transition={{ duration: 0.6, delay: index * 0.12 }}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-[#101827]/80 p-8 backdrop-blur-xl transition-colors hover:border-[#FF2D55]/50"
               >
-                <Code2 className="mb-6 text-[#00E5A0]" size={25} />
-                <h3 className="font-medium">{skill}</h3>
+
+                <div className="mb-8 flex items-center justify-between">
+
+                  <div className="rounded-xl border border-[#FF2D55]/20 bg-[#FF2D55]/10 p-4">
+                    <group.icon size={28} className="text-[#FF2D55]" />
+                  </div>
+
+                  <span className="font-mono text-xs tracking-widest text-gray-600">
+                    {group.code}
+                  </span>
+
+                </div>
+
+                <h3 className="mb-7 text-xl font-bold text-white">
+                  {group.title}
+                </h3>
+
+                <div className="space-y-4">
+
+                  {group.skills.map((skill) => (
+                    <div
+                      key={skill}
+                      className="flex items-center gap-3 text-sm text-gray-400 transition hover:translate-x-1 hover:text-white"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#FF2D55] shadow-[0_0_10px_#FF2D55]" />
+                      {skill}
+                    </div>
+                  ))}
+
+                </div>
+
+                <div className="mt-9 h-px w-full bg-gradient-to-r from-[#FF2D55]/60 to-transparent" />
+
+                <p className="mt-4 font-mono text-[10px] tracking-widest text-gray-600">
+                  CONTINUOUSLY LEARNING
+                </p>
+
               </motion.div>
             ))}
+
           </div>
+
         </div>
+
       </section>
 
       {/* ========================================
@@ -377,16 +629,18 @@ export default function Home() {
         id="projects"
         className="border-t border-white/10 px-6 py-28 md:px-10"
       >
+
         <div className="mx-auto max-w-7xl">
 
           <div className="flex flex-wrap items-end justify-between gap-6">
 
             <div>
-              <p className="mb-5 text-sm tracking-[0.3em] text-[#00E5A0]">
+
+              <p className="mb-5 font-mono text-sm tracking-[0.3em] text-[#FF2D55]">
                 03 / SELECTED WORK
               </p>
 
-              <h2 className="text-4xl font-bold md:text-6xl">
+              <h2 className="text-4xl font-black md:text-6xl">
                 Featured Projects.
               </h2>
 
@@ -394,11 +648,12 @@ export default function Home() {
                 A selection of projects built with creativity,
                 technology and passion.
               </p>
+
             </div>
 
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 rounded-full border border-[#00E5A0]/40 px-5 py-3 text-sm font-semibold text-[#00E5A0] transition hover:bg-[#00E5A0] hover:text-black"
+              className="inline-flex items-center gap-2 rounded-full border border-[#FF2D55]/40 px-5 py-3 text-sm font-semibold text-[#FF2D55] transition hover:bg-[#FF2D55] hover:text-black"
             >
               View All Projects
               <ArrowUpRight size={17} />
@@ -409,28 +664,30 @@ export default function Home() {
           {/* LOADING */}
 
           {projectsLoading ? (
-            <div className="flex min-h-64 items-center justify-center gap-3 text-[#00E5A0]">
+
+            <div className="flex min-h-64 items-center justify-center gap-3 text-[#FF2D55]">
               <Loader2 size={25} className="animate-spin" />
               <span className="text-sm">Loading projects...</span>
             </div>
+
           ) : projectsError ? (
 
-            /* ERROR */
-
             <div className="mt-12 rounded-2xl border border-red-500/20 bg-red-500/5 p-10 text-center">
+
               <p className="text-red-400">
                 Unable to load projects.
               </p>
+
               <p className="mt-2 text-sm text-gray-500">
                 {projectsError}
               </p>
+
             </div>
 
           ) : projects.length === 0 ? (
 
-            /* EMPTY STATE */
-
             <div className="mt-12 rounded-2xl border border-dashed border-white/15 bg-[#101827]/50 px-5 py-16 text-center">
+
               <FolderKanban
                 size={45}
                 className="mx-auto mb-5 text-gray-600"
@@ -446,16 +703,15 @@ export default function Home() {
 
               <Link
                 href="/projects"
-                className="mt-6 inline-flex items-center gap-2 text-sm text-[#00E5A0] hover:underline"
+                className="mt-6 inline-flex items-center gap-2 text-sm text-[#FF2D55] hover:underline"
               >
                 Explore Projects
                 <ArrowUpRight size={16} />
               </Link>
+
             </div>
 
           ) : (
-
-            /* PROJECT CARDS */
 
             <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
@@ -466,7 +722,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group overflow-hidden rounded-3xl border border-white/10 bg-[#101827] transition hover:-translate-y-1 hover:border-[#00E5A0]/50"
+                  className="group overflow-hidden rounded-3xl border border-white/10 bg-[#101827] transition hover:-translate-y-1 hover:border-[#FF2D55]/50"
                 >
 
                   {/* PROJECT IMAGE */}
@@ -474,6 +730,7 @@ export default function Home() {
                   <div className="relative flex h-52 items-center justify-center overflow-hidden bg-[#0B111C]">
 
                     {project.image_url ? (
+
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={project.image_url}
@@ -481,17 +738,18 @@ export default function Home() {
                         loading="lazy"
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
+
                     ) : (
+
                       <div className="flex flex-col items-center gap-3 text-gray-600">
                         <ImageIcon size={42} />
-                        <span className="text-xs">
-                          Project Preview
-                        </span>
+                        <span className="text-xs">Project Preview</span>
                       </div>
+
                     )}
 
                     {project.category && (
-                      <span className="absolute left-4 top-4 rounded-full border border-[#00E5A0]/20 bg-black/75 px-3 py-1.5 text-xs text-[#00E5A0] backdrop-blur-md">
+                      <span className="absolute left-4 top-4 rounded-full border border-[#FF2D55]/20 bg-black/75 px-3 py-1.5 text-xs text-[#FF2D55] backdrop-blur-md">
                         {project.category}
                       </span>
                     )}
@@ -502,28 +760,27 @@ export default function Home() {
 
                   <div className="p-7">
 
-                    <h3 className="text-xl font-semibold transition group-hover:text-[#00E5A0]">
+                    <h3 className="text-xl font-semibold transition group-hover:text-[#FF2D55]">
                       {project.title}
                     </h3>
 
                     <p className="mt-4 min-h-[72px] text-sm leading-7 text-gray-400">
-                      {project.description ||
-                        "No description provided."}
+                      {project.description || "No description provided."}
                     </p>
 
                     {/* TECHNOLOGIES */}
 
                     <div className="mt-5 flex min-h-8 flex-wrap gap-2">
-                      {(project.tech_stack ?? []).map(
-                        (tech, techIndex) => (
-                          <span
-                            key={`${tech}-${techIndex}`}
-                            className="rounded-lg border border-white/5 bg-white/5 px-3 py-1.5 text-xs text-gray-300"
-                          >
-                            {tech}
-                          </span>
-                        )
-                      )}
+
+                      {(project.tech_stack ?? []).map((tech, techIndex) => (
+                        <span
+                          key={`${tech}-${techIndex}`}
+                          className="rounded-lg border border-white/5 bg-white/5 px-3 py-1.5 text-xs text-gray-300"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+
                     </div>
 
                     {/* PROJECT LINKS */}
@@ -548,7 +805,7 @@ export default function Home() {
                           href={project.live_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#00E5A0] px-3 py-3 text-sm font-semibold text-black transition hover:bg-emerald-300"
+                          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#FF2D55] px-3 py-3 text-sm font-semibold text-black transition hover:bg-[#ff5575]"
                           aria-label={`Live demo for ${project.title}`}
                         >
                           <ExternalLink size={17} />
@@ -563,86 +820,150 @@ export default function Home() {
                       )}
 
                     </div>
+
                   </div>
+
                 </motion.article>
               ))}
 
             </div>
-          )}
 
-          {/* VIEW ALL */}
+          )}
 
           {!projectsLoading && projects.length > 0 && (
             <div className="mt-12 text-center">
+
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-3 rounded-full border border-white/15 px-7 py-4 text-sm font-semibold text-white transition hover:border-[#00E5A0] hover:text-[#00E5A0]"
+                className="inline-flex items-center gap-3 rounded-full border border-white/15 px-7 py-4 text-sm font-semibold text-white transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
               >
                 Explore All Projects
                 <ArrowUpRight size={18} />
               </Link>
+
             </div>
           )}
 
         </div>
+
       </section>
 
       {/* ========================================
-          CONTACT
+          CONTACT SECTION
       ======================================== */}
 
       <section
         id="contact"
-        className="border-t border-white/10 px-6 py-32 text-center md:px-10"
+        className="relative overflow-hidden border-t border-white/10 px-6 py-32 text-center md:px-10"
+      >
+
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF2D55]/10 blur-[120px]" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative mx-auto max-w-4xl"
         >
-        <div className="mx-auto max-w-4xl">
-          <p className="mb-5 text-sm tracking-[0.3em] text-[#00E5A0]">
+
+          <p className="mb-5 font-mono text-sm tracking-[0.3em] text-[#FF2D55]">
             04 / GET IN TOUCH
           </p>
 
-          <h2 className="text-4xl font-bold leading-tight md:text-6xl">
+          <h2 className="text-4xl font-black leading-tight md:text-6xl">
             Have an idea?
             <br />
-            <span className="text-[#00E5A0]">Let's build it.</span>
+            <span className="text-[#FF2D55]">Let's build it.</span>
           </h2>
 
           <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-gray-400 md:text-lg">
-            I'm always interested in discussing technology, software
-            development, cybersecurity and innovative projects.
+            I'm always interested in discussing technology,
+            software development, cybersecurity and innovative projects.
             Feel free to connect with me.
           </p>
 
           <a
-            href="mailto:hello@example.com"
-            className="mt-10 inline-flex items-center gap-3 rounded-full bg-[#00E5A0] px-8 py-4 font-semibold text-black transition hover:scale-105"
+            href="mailto:abiilash.root@gmail.com"
+            className="mt-10 inline-flex items-center gap-3 rounded-full bg-[#FF2D55] px-8 py-4 font-semibold text-black transition hover:scale-105"
           >
             <Mail size={19} />
             Contact Me
             <ArrowUpRight size={19} />
           </a>
-        </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
+
+            <a
+              href="https://github.com/cyber-abilash"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+              className="rounded-full border border-white/10 p-4 text-gray-400 transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
+            >
+              <Code2 size={22} />
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/abilash-s-679ba8443/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn profile"
+              className="rounded-full border border-white/10 p-4 text-gray-400 transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
+            >
+              <Globe size={22} />
+            </a>
+
+            <a
+              href="https://github.com/cyber-abilash"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub portfolio"
+              className="rounded-full border border-white/10 p-4 text-gray-400 transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
+            >
+              <Globe size={22} />
+            </a>
+
+          </div>
+
+        </motion.div>
+
       </section>
 
       {/* ========================================
           FOOTER
       ======================================== */}
 
-      <footer className="border-t border-white/10 px-6 py-10 md:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
-          <a href="#home" className="text-lg font-bold tracking-wider">
-            CYBER
-            <span className="text-[#00E5A0]"> ABILASH.</span>
-          </a>
+      <footer className="border-t border-white/10 bg-[#05070B] px-6 py-8 md:px-10">
 
-          <p className="text-sm text-gray-500">
-            Think Beyond. Build Secure.
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
+
+          <Link
+            href="#home"
+            className="text-lg font-black tracking-wider"
+          >
+            CYBER
+            <span className="text-[#FF2D55]"> ABILASH.</span>
+          </Link>
+
+          <p className="font-mono text-[10px] tracking-widest text-gray-600">
+            THINK BEYOND. BUILD SECURE.
           </p>
 
           <p className="text-xs text-gray-600">
-            © 2026 CYBER ABILASH. All rights reserved.
+            © 2026 Abilash S. All rights reserved.
+          </p>
+
+        </div>
+
+        <div className="mx-auto mt-6 max-w-7xl border-t border-white/5 pt-5 text-center">
+          <p className="font-mono text-[9px] tracking-[0.25em] text-gray-700">
+            CLASSIFIED INTERFACE // CYBERSECURITY PORTFOLIO
           </p>
         </div>
+
       </footer>
+
     </main>
   );
 }
