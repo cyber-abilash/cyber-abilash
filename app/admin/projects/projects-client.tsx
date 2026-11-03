@@ -162,29 +162,34 @@ export default function ProjectsClient() {
 
     setLoading(false);
   }, []);
-
   useEffect(() => {
-    void loadProjects();
-  }, [loadProjects]);
+    let active = true;
+
+    supabase
+      .from("projects")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data, error: fetchError }) => {
+        if (!active) return;
+
+        if (fetchError) {
+          setError(fetchError.message);
+          setProjects([]);
+        } else {
+          setProjects((data ?? []) as Project[]);
+        }
+
+        setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // ============================================
   // IMAGE PREVIEW
   // ============================================
-
-  useEffect(() => {
-    if (!selectedImage) {
-      setPreviewUrl("");
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(selectedImage);
-
-    setPreviewUrl(objectUrl);
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [selectedImage]);
 
   // ============================================
   // IMAGE SELECTION
@@ -208,6 +213,21 @@ export default function ProjectsClient() {
     }
 
     setSelectedImage(file);
+    setPreviewUrl("");
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setPreviewUrl(reader.result);
+      }
+    };
+
+    reader.onerror = () => {
+      setError("Unable to preview the selected image.");
+    };
+
+    reader.readAsDataURL(file);
   }
 
   // ============================================
@@ -216,6 +236,7 @@ export default function ProjectsClient() {
 
   function removeSelectedImage() {
     setSelectedImage(null);
+    setPreviewUrl("");
 
     setForm((current) => ({
       ...current,
@@ -231,6 +252,7 @@ export default function ProjectsClient() {
     setEditingId(null);
     setForm(emptyForm);
     setSelectedImage(null);
+    setPreviewUrl("");
 
     setError("");
     setSuccess("");
@@ -256,6 +278,7 @@ export default function ProjectsClient() {
     });
 
     setSelectedImage(null);
+    setPreviewUrl("");
 
     setError("");
     setSuccess("");
@@ -272,6 +295,7 @@ export default function ProjectsClient() {
     setEditingId(null);
     setForm(emptyForm);
     setSelectedImage(null);
+    setPreviewUrl("");
   }
 
   // ============================================
@@ -402,6 +426,7 @@ export default function ProjectsClient() {
       );
 
       setSelectedImage(null);
+    setPreviewUrl("");
 
       await loadProjects();
 
