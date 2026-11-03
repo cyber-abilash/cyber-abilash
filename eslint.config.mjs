@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "**/*.backup.tsx",
+    "**/*.before-*.tsx",
+    "page.before-classified.tsx",
   ]),
 ]);
 

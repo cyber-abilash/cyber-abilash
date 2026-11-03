@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 
@@ -21,7 +22,6 @@ import {
   Loader2,
   Image as ImageIcon,
   Globe,
-  LockKeyhole,
 } from "lucide-react";
 
 import { supabase } from "@/lib/supabase";
@@ -118,7 +118,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#070A0F] text-white">
+    <main className="min-h-screen overflow-hidden bg-[#070A0F]/85 text-white">
 
       {/* ========================================
           NAVIGATION
@@ -152,7 +152,7 @@ export default function Home() {
             href="#contact"
             className="hidden items-center gap-2 rounded-full border border-[#FF2D55]/50 px-5 py-2.5 text-sm text-[#FF2D55] transition hover:bg-[#FF2D55] hover:text-black md:flex"
           >
-            Let's Talk
+            Let&apos;s Talk
             <ArrowUpRight size={16} />
           </a>
 
@@ -199,179 +199,177 @@ export default function Home() {
       ======================================== */}
 
       {/* ========================================
-    CLASSIFIED PERSONAL HERO SECTION
-======================================== */}
+          CLASSIFIED PERSONAL HERO SECTION — V3 CINEMATIC
+      ======================================== */}
 
-<section
-  id="home"
-  className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 pb-20 pt-36 md:grid-cols-2 md:px-10"
->
-  <div className="pointer-events-none absolute left-[-150px] top-40 h-80 w-80 rounded-full bg-[#FF2D55]/10 blur-[120px]" />
+      <section
+        id="home"
+        className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-6 pb-20 pt-36 md:grid-cols-2 md:px-10"
+      >
+        <div className="pointer-events-none absolute left-[-150px] top-40 h-80 w-80 rounded-full bg-[#FF2D55]/10 blur-[120px]" />
 
-  {/* PERSONAL INFORMATION */}
-<div className="relative z-10">
-  {/* PROFILE IDENTITY */}
+        {/* PERSONAL INFORMATION & TELEMETRY */}
+        <div className="relative z-10">
+          {/* PROFILE IDENTITY BADGE */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="mb-7 flex items-center gap-5"
+          >
+            <div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-2xl border-2 border-[#FF2D55] bg-[#0c0c14] p-1 shadow-[0_0_35px_rgba(255,45,85,0.45)] sm:h-36 sm:w-36">
+              <div className="relative h-full w-full overflow-hidden rounded-xl">
+                <Image
+                  src="/abilash-profile.png"
+                  alt="Abilash S"
+                  width={144}
+                  height={144}
+                  priority
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <span className="absolute bottom-2 right-2 h-3.5 w-3.5 rounded-full border-2 border-[#0c0c14] bg-[#00E5A0] shadow-[0_0_10px_#00E5A0]" />
+            </div>
 
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.8 }}
-    className="mb-7 flex items-center gap-5"
-  >
-    <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-[#FF2D55] shadow-[0_0_30px_rgba(255,45,85,0.5)]">
-      <img
-        src="/abilash-profile.png"
-        alt="Abilash S"
-        className="block h-full w-full rounded-full object-cover scale-125"
-        style={{
-          objectPosition: "center",
-          transform: "scale(1.15)",
-        }}
-      />
-    </div>
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#FF2D55]/30 bg-[#FF2D55]/10 px-3 py-1 font-mono text-[10px] tracking-widest text-[#FF5575]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#FF2D55]" />
+                IDENTITY VERIFIED // DEFCON 1
+              </div>
+              <h2 className="mt-2 text-2xl font-black tracking-wide text-white sm:text-3xl">
+                ABILASH S.
+              </h2>
+              <p className="mt-1 font-mono text-xs tracking-wider text-gray-300">
+                CYBERSECURITY ENTHUSIAST &amp; DEVELOPER
+              </p>
+              <p className="mt-1 font-mono text-xs tracking-widest text-[#FF2D55]">
+                ETHICAL HACKER IN PROGRESS
+              </p>
+            </div>
+          </motion.div>
 
-    <div>
-      <p className="font-mono text-xs tracking-widest text-[#FF2D55]">
-        IDENTITY VERIFIED
-      </p>
-      <h2 className="mt-2 text-2xl font-black text-white">
-        ABILASH S.
-      </h2>
-      <p className="mt-1 text-sm text-gray-400">
-        Cybersecurity Enthusiast
-      </p>
-      <p className="mt-1 text-sm text-gray-500">
-        Ethical Hacking Learner
-      </p>
-    </div>
-  </motion.div>
+          {/* MAIN CINEMATIC HERO HEADING */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="text-5xl font-black leading-[1.08] tracking-tight md:text-7xl lg:text-8xl"
+          >
+            Think.
+            <br />
+            Build.
+            <br />
+            <span className="crimson-text-glow bg-gradient-to-r from-[#FF2D55] via-[#FF7590] to-[#FF2D55] bg-clip-text text-transparent">
+              Secure.
+            </span>
+          </motion.h1>
 
-  {/* MAIN HERO HEADING */}
+          {/* ETHICAL HACKER STATUS TELEMETRY */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="mt-6 flex items-center gap-3 font-mono text-xs font-bold tracking-widest text-[#FF5575] md:text-sm"
+          >
+            <span className="h-2 w-2 animate-ping rounded-full bg-[#FF2D55]" />
+            <span>OPERATIONAL CLASSIFICATION // ETHICAL HACKER LEARNER</span>
+          </motion.div>
 
-  <motion.h1
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="text-5xl font-black leading-[1.1] tracking-tight md:text-7xl"
-  >
-    Think.
-    <br />
-    Build.
-    <br />
-    <span className="text-[#FF2D55]">Secure.</span>
-  </motion.h1>
+          {/* VERIFIED INTRODUCTION */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="mt-6 max-w-lg text-base leading-8 text-gray-300"
+          >
+            Hi, I&apos;m Abilash. I&apos;m a computer science cybersecurity student exploring ethical hacking, Kali Linux, and networking fundamentals. My mission is to master modern defense paradigms and build resilient digital architectures.
+          </motion.p>
 
-  {/* ETHICAL HACKER STATUS */}
+          {/* VERIFIED PERSONAL DETAILS GRID */}
+          <div className="mt-8 grid max-w-lg grid-cols-2 gap-3">
+            {[
+              ["EDUCATION", "B.E. CSE (Cyber Security)"],
+              ["COLLEGE", "Sardar Raja College of Engineering"],
+              ["LOCATION", "Tenkasi, Tamil Nadu, India"],
+              ["CURRENT FOCUS", "Kali Linux & Network Security"],
+            ].map(([label, value]) => (
+              <div
+                key={label}
+                className="group rounded-xl border border-white/10 bg-[#101827]/80 p-4 backdrop-blur-xl transition hover:border-[#FF2D55]/50 hover:bg-[#101827]"
+              >
+                <p className="font-mono text-[9px] tracking-widest text-[#FF2D55]">
+                  {label}
+                </p>
+                <p className="mt-2 text-xs font-semibold text-gray-200">
+                  {value}
+                </p>
+              </div>
+            ))}
+          </div>
 
-  <motion.p
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 0.8, duration: 1 }}
-    className="mt-5 font-mono text-sm font-bold tracking-widest text-[#FF2D55] md:text-base"
-  >
-    <span className="mr-2 animate-pulse">▌</span>
-    ETHICAL HACKER IN PROGRESS
-  </motion.p>
+          {/* ACTION BUTTONS WITH MAGNETIC HOVER */}
+          <div className="mt-9 flex flex-wrap items-center gap-4">
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-3 rounded-full bg-[#FF2D55] px-8 py-4 font-semibold text-black shadow-[0_0_25px_rgba(255,45,85,0.45)] transition hover:scale-105 hover:bg-[#ff4d70]"
+            >
+              Explore My Work
+              <ArrowUpRight size={19} />
+            </a>
 
-  {/* INTRODUCTION */}
+            <a
+              href="#contact"
+              className="rounded-full border border-white/20 px-8 py-4 font-semibold text-white backdrop-blur-md transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
+            >
+              Contact Me
+            </a>
+          </div>
 
-  <motion.p
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3, duration: 0.8 }}
-    className="mt-7 max-w-lg text-base leading-8 text-gray-400"
-  >
-    Hi, I'm Abilash. I'm a cybersecurity enthusiast
-    learning ethical hacking, Kali Linux and networking.
-    My mission is to understand technology and help
-    build a safer digital world.
-  </motion.p>
-  
-    {/* PERSONAL DETAILS */}
+          {/* CYBERSECURITY PHILOSOPHY */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+            className="mt-10 max-w-lg rounded-r-2xl border-l-2 border-[#FF2D55] bg-[#FF2D55]/5 p-5 backdrop-blur-md"
+          >
+            <p className="font-mono text-[10px] tracking-widest text-[#FF2D55]">
+              MY CYBERSECURITY PHILOSOPHY
+            </p>
 
-    <div className="mt-8 grid max-w-lg grid-cols-2 gap-3">
+            <h3 className="mt-2 text-lg font-bold italic text-white md:text-xl">
+              <span className="text-[#FF2D55]">THINK LIKE A HACKER.</span>
+              <br />
+              DEFEND LIKE A GUARDIAN.
+            </h3>
 
-      {[
-  ["EDUCATION", "B.E. CSE (Cyber Security)"],
-  ["COLLEGE", "Sardar Raja College of Engineering"],
-  ["LOCATION", "Tenkasi, Tamil Nadu, India"],
-  ["CURRENT FOCUS", "Kali Linux & Network Security"],
-      ].map(([label, value]) => (
-        <div
-          key={label}
-          className="rounded-xl border border-white/10 bg-[#101827]/80 p-4 backdrop-blur-xl"
-        >
-          <p className="font-mono text-[9px] tracking-widest text-[#FF2D55]">
-            {label}
-          </p>
-          <p className="mt-2 text-xs font-semibold text-gray-300">
-            {value}
-          </p>
+            <p className="mt-2 text-xs text-gray-400">
+              Break the limits. Not the laws. | Learn. Build. Secure.
+            </p>
+          </motion.div>
         </div>
-      ))}
 
-    </div>
+        {/* 3D CYBER SECURITY COMMAND RIG */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="relative flex flex-col items-center justify-center py-6"
+        >
+          {/* Top HUD Telemetry Tab */}
+          <div className="mb-4 flex items-center gap-2 rounded-full border border-[#FF2D55]/30 bg-black/60 px-4 py-1.5 font-mono text-[9px] tracking-widest text-[#FF5575] backdrop-blur-xl">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#FF2D55]" />
+            <span>GLOBAL THREAT MATRIX // ACTIVE SURVEILLANCE</span>
+          </div>
 
-    {/* ACTION BUTTONS */}
+          {/* Preserved 3D Cyber Globe */}
+          <CyberGlobe />
 
-    <div className="mt-9 flex flex-wrap gap-4">
-
-      <a
-        href="#projects"
-        className="inline-flex items-center gap-3 rounded-full bg-[#FF2D55] px-7 py-4 font-semibold text-black transition hover:scale-105"
-      >
-        Explore My Work
-        <ArrowUpRight size={19} />
-      </a>
-
-      <a
-        href="#contact"
-        className="rounded-full border border-white/20 px-7 py-4 text-white transition hover:border-[#FF2D55] hover:text-[#FF2D55]"
-      >
-        Contact Me
-      </a>
-
-    </div>
-
-    {/* ETHICAL HACKING QUOTE */}
-
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.6 }}
-      className="mt-10 max-w-lg border-l-2 border-[#FF2D55] bg-[#FF2D55]/5 p-5"
-    >
-      <p className="font-mono text-[10px] tracking-widest text-[#FF2D55]">
-        MY CYBERSECURITY PHILOSOPHY
-      </p>
-
-      <h3 className="mt-3 text-lg font-bold italic text-white md:text-xl">
-  <span className="text-[#FF2D55]">
-    THINK LIKE A HACKER.
-  </span>
-  <br />
-  DEFEND LIKE A GUARDIAN.
-</h3>
-
-<p className="mt-2 text-xs text-gray-500">
-  Break the limits. Not the laws. | Learn. Build. Secure.
-</p>
-    </motion.div>
-
-  </div>
-
-  {/* EXISTING 3D CYBER GLOBE */}
-
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 1 }}
-    className="relative flex items-center justify-center py-10"
-  >
-    <CyberGlobe />
-  </motion.div>
-
-</section>
+          {/* Spatial Note regarding persistent 3D Canvas */}
+          <div className="mt-3 flex items-center gap-2 font-mono text-[9px] tracking-[0.2em] text-gray-500">
+            <span>PERSISTENT 3D SHIELD RIG: SYNCHRONIZED</span>
+          </div>
+        </motion.div>
+      </section>
 
       {/* ========================================
           PREMIUM ABOUT SECTION
@@ -874,11 +872,11 @@ export default function Home() {
           <h2 className="text-4xl font-black leading-tight md:text-6xl">
             Have an idea?
             <br />
-            <span className="text-[#FF2D55]">Let's build it.</span>
+            <span className="text-[#FF2D55]">Let&apos;s build it.</span>
           </h2>
 
           <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-gray-400 md:text-lg">
-            I'm always interested in discussing technology,
+            I&apos;m always interested in discussing technology,
             software development, cybersecurity and innovative projects.
             Feel free to connect with me.
           </p>

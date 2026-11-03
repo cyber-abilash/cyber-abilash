@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClassifiedLoader from "@/components/classified-loader";
+import { SmoothScrollProvider } from "@/lib/motion";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -92,7 +93,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <ClassifiedLoader />
-        {children}
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );
